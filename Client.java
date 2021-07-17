@@ -13,9 +13,7 @@ class Client {
         ATMInterface ATM = (ATMInterface) Naming.lookup("ATMObject");
         Scanner scanner = new Scanner(System.in);
         ArrayList<User> objects = new ArrayList<>();
-        String username = "";
-        String password = "";
-        int amount = 0;
+
         String choice = "";
         String fileName = "data.ser";
 
@@ -37,9 +35,10 @@ class Client {
             if (choice.equalsIgnoreCase("c")) {
                 // Create Account
                 System.out.print("Please enter your user name: ");
-                username = scanner.nextLine();
+                String username = scanner.nextLine();
                 System.out.print("Please enter your password: ");
-                password = scanner.nextLine();
+                String password = scanner.nextLine();
+                int amount = 0;
 
                 ///////////////////////////////////////////////////////////////////////////////
                 // Add Objects
@@ -74,7 +73,8 @@ class Client {
 
                     // Print objects
                     for (int i = 0; i < objectsRead.size(); i++) {
-                        objects.add((User) objectsRead.get(i));
+                        User object = objectsRead.get(i);
+                        objects.add(object);
                         // System.out.println("Objects Read :" + objectsRead.get(i).getUsername());
                     }
 
@@ -137,13 +137,41 @@ class Client {
 
             } else if (choice.equalsIgnoreCase("l")) {
                 // If Login is Selected
+                Boolean loggedIn = false;
+
                 // Create Account
                 System.out.print("Please enter your user name: ");
-                username = scanner.nextLine();
+                String usernameInput = scanner.nextLine();
                 System.out.print("Please enter your password: ");
-                password = scanner.nextLine();
+                String passwordInput = scanner.nextLine();
 
                 // Read User from file
+                // Read Objects
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream("test.ser"));
+                // User readUser = (User) in.readObject();
+
+                ArrayList<User> objectsRead = (ArrayList<User>) in.readObject();
+                in.close();
+
+                // Print objects
+                for (int i = 0; i < objectsRead.size(); i++) {
+                    User object = objectsRead.get(i);
+                    String username = object.getUsername();
+                    String password = object.getPassword();
+                    int amount = object.getAmount();
+
+                    System.out.println("Objects Found :" + username);
+                    // Check if user exists
+                    if (username.equalsIgnoreCase(usernameInput)) {
+                        System.out.println("Access granted.\n******** Welcome to your account ********");
+                        loggedIn = true;
+                    }
+                }
+
+                // If user not found
+                if (!loggedIn) {
+                    System.out.println("******** LOGIN FAILED! Please try again. Good bye ********");
+                }
 
                 // ArrayList<Object> objList = new ArrayList<>();
                 // ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
@@ -166,10 +194,6 @@ class Client {
                 // System.out.println("Broken loop");
 
                 // Validate user
-
-                // Check if user exists
-                // if (readUser.getUsername().equalsIgnoreCase(username)) {
-                // System.out.println("User exists");
 
                 // // If exists
                 // // Check Password
