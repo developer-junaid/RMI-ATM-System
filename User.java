@@ -28,4 +28,8 @@ public class User implements Serializable {
         this.amount += amountToDeposit;
     }
 
+    public void withdrawAmount(int amountToWithdraw) {
+        this.amount -= amountToWithdraw;
+    }
+
 }

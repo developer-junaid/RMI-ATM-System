@@ -200,7 +200,8 @@ class Client {
                                 } else if (choiceOperation.equalsIgnoreCase("w")) {
                                     // Withdraw balance from account
                                     System.out.print("Amount of withdrawal: $");
-                                    String amountToWithdraw = scanner.nextLine(); // Input amount to deposit
+                                    String amountToWithdraw = scanner.nextLine(); // Input amount to withdraw
+                                    object.withdrawAmount(Integer.parseInt(amountToWithdraw));
                                     System.out.println("$" + amountToWithdraw + " withdrawn successfully.");
 
                                     objects.add(object);
