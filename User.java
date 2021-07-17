@@ -6,10 +6,10 @@ public class User implements Serializable {
     private String password;
     private int amount;
 
-    public User(String usernameInput, String passwordInput, int amountInput) {
-        username = usernameInput;
-        password = passwordInput;
-        amount = amountInput;
+    public User(String username, String password, int amount) {
+        this.username = username;
+        this.password = password;
+        this.amount = amount;
     }
 
     public String getUsername() {
