@@ -12,17 +12,19 @@ class Client {
         // Variables
         ATMInterface ATM = (ATMInterface) Naming.lookup("ATMObject");
         Scanner scanner = new Scanner(System.in);
+        ArrayList<User> objects = new ArrayList<>();
         String username = "";
         String password = "";
         int amount = 0;
         String choice = "";
-        String fileName = "data.txt";
+        String fileName = "data.ser";
 
         // My Info
         System.out.println("Hi! Welcome to BSIT Part IV ATM Machine !\n Developed by: IT/2k18/50 (Junaid) \n");
 
         // Run untill Quit "q"
         while (true) {
+
             // Display Initial Text
             System.out.println("\nPlease select an option from the menu below:");
             System.out.println(" l -> Login \n c -> Create New Account \n q -> Quit \n");
@@ -38,7 +40,87 @@ class Client {
                 username = scanner.nextLine();
                 System.out.print("Please enter your password: ");
                 password = scanner.nextLine();
-                System.out.println("Thank You! Your account has been created!");
+
+                ///////////////////////////////////////////////////////////////////////////////
+                // Add Objects
+
+                // Create Input Output Streams
+                // ObjectOutputStream out = new ObjectOutputStream(new
+                // FileOutputStream("test.ser"));
+
+                // // Call Create Account
+                // int j = 0;
+                // while (j != 2) {
+                // User user = new User("junaid", "123", j);
+                // objects.add(user);
+                // j++;
+                // }
+
+                // out.writeObject(objects);
+                // out.flush();
+                // out.close();
+
+                // Try Catch //
+                try {
+                    // Create Input Output Streams
+                    // Read Objects
+                    ObjectInputStream in = new ObjectInputStream(new FileInputStream("test.ser"));
+                    // User readUser = (User) in.readObject();
+
+                    ArrayList<User> objectsRead = (ArrayList<User>) in.readObject();
+                    in.close();
+
+                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("test.ser"));
+
+                    // Print objects
+                    for (int i = 0; i < objectsRead.size(); i++) {
+                        objects.add((User) objectsRead.get(i));
+                        // System.out.println("Objects Read :" + objectsRead.get(i).getUsername());
+                    }
+
+                    // Call Create Account
+                    User user = new User(username, password, 0);
+                    objects.add(user);
+
+                    out.writeObject(objects);
+                    out.flush();
+                    out.close();
+                    // System.out.println("Added all objects");
+                    // System.out.println("Objects: " + objects.toString());
+                    // Print objects
+                    // for (int j = 0; j < objects.size(); j++) {
+                    // System.out.println("Objects Added :" + objects.get(j).getUsername());
+                    // }
+                    objects.clear();
+
+                    System.out.println("Thank You! Your account has been created!");
+
+                } catch (FileNotFoundException e) {
+                    // System.out.println("File not found");
+                    // Create Input Output Streams
+                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("test.ser"));
+
+                    // Call Create Account
+                    User user = new User(username, password, 0);
+                    objects.add(user);
+
+                    out.writeObject(objects);
+                    out.flush();
+                    out.close();
+                    // System.out.println("Created File");
+                    objects.clear();
+
+                    System.out.println("Thank You! Your account has been created!");
+
+                }
+
+                // Try Catch //
+
+                // Print objects
+                // for (int i = 0; i < objectsRead.size(); i++) {
+                // System.out.println("Objects " + ((User) objectsRead.get(i)).getAmount());
+                // }
+                ///////////////////////////////////////////////////////////////////////////////
 
                 // Create Input Output Streams
                 // ObjectOutputStream out = new ObjectOutputStream(new
