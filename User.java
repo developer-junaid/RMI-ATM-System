@@ -21,7 +21,11 @@ public class User implements Serializable {
     }
 
     public int getAmount() {
-        return amount;
+        return this.amount;
+    }
+
+    public void depositAmount(int amountToDeposit) {
+        this.amount += amountToDeposit;
     }
 
 }

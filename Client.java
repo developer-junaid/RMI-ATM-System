@@ -155,16 +155,74 @@ class Client {
 
                 // Print objects
                 for (int i = 0; i < objectsRead.size(); i++) {
+
                     User object = objectsRead.get(i);
                     String username = object.getUsername();
                     String password = object.getPassword();
-                    int amount = object.getAmount();
 
-                    System.out.println("Objects Found :" + username);
                     // Check if user exists
-                    if (username.equalsIgnoreCase(usernameInput)) {
-                        System.out.println("Access granted.\n******** Welcome to your account ********");
-                        loggedIn = true;
+                    if (username.equals(usernameInput)) {
+                        // Check Password
+                        if (password.equals(passwordInput)) {
+                            loggedIn = true;
+
+                            System.out.println("Access granted.\n\n******** Welcome to your account ********\n");
+
+                            // Choose Operation
+                            while (true) {
+                                System.out.println(
+                                        "\n\t1) Withdraw money.\n\t2) Deposit money.\n\t3) Request balance.\n\t4) Quit the program.\n\n");
+                                System.out.println("\nPlease select an option from the menu below:");
+                                System.out.println(
+                                        " d -> Deposit \n w -> Withdraw Money \n r -> Request Balance \n q -> Quit \n");
+                                System.out.print("> ");
+                                String choiceOperation = scanner.nextLine();
+
+                                // Operations
+
+                                // If Deposit
+                                if (choiceOperation.equalsIgnoreCase("d")) {
+                                    // Add balance to account
+                                    System.out.print("Amount to deposit: $");
+                                    String amountToDeposit = scanner.nextLine(); // Input amount to deposit
+                                    object.depositAmount(Integer.parseInt(amountToDeposit));
+                                    System.out.println("$" + amountToDeposit + " deposited successfully.");
+                                    System.out.println("new amount: " + object.getAmount());
+
+                                    objects.add(object);
+
+                                } else if (choiceOperation.equalsIgnoreCase("r")) {
+                                    // Show Account Balance
+                                    System.out.println("Your balance is $" + object.getAmount());
+
+                                    objects.add(object);
+
+                                } else if (choiceOperation.equalsIgnoreCase("w")) {
+                                    // Withdraw balance from account
+                                    System.out.print("Amount of withdrawal: $");
+                                    String amountToWithdraw = scanner.nextLine(); // Input amount to deposit
+                                    System.out.println("$" + amountToWithdraw + " withdrawn successfully.");
+
+                                    objects.add(object);
+
+                                } else if (choiceOperation.equalsIgnoreCase("q")) {
+                                    System.out.println("Thanks for stopping by!");
+                                    objects.add(object);
+
+                                    break;
+                                }
+                            }
+
+                            // Write Objects Back
+                            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("test.ser"));
+
+                            out.writeObject(objects);
+                            out.flush();
+                            out.close();
+
+                            objects.clear();
+                            // Operations
+                        }
                     }
                 }
 
