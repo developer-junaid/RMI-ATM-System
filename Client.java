@@ -185,6 +185,7 @@ class Client {
                                     // Add balance to account
                                     System.out.print("Amount to deposit: $");
                                     String amountToDeposit = scanner.nextLine(); // Input amount to deposit
+
                                     object.depositAmount(Integer.parseInt(amountToDeposit));
                                     System.out.println("$" + amountToDeposit + " deposited successfully.");
                                     System.out.println("new amount: " + object.getAmount());
@@ -201,8 +202,17 @@ class Client {
                                     // Withdraw balance from account
                                     System.out.print("Amount of withdrawal: $");
                                     String amountToWithdraw = scanner.nextLine(); // Input amount to withdraw
-                                    object.withdrawAmount(Integer.parseInt(amountToWithdraw));
-                                    System.out.println("$" + amountToWithdraw + " withdrawn successfully.");
+
+                                    // If amount available
+                                    if (object.getAmount() >= Integer.parseInt(amountToWithdraw)) {
+                                        // Withdraw amount
+                                        object.withdrawAmount(Integer.parseInt(amountToWithdraw));
+                                        System.out.println("$" + amountToWithdraw + " withdrawn successfully.");
+                                    } else {
+                                        // Insufficient Balance
+                                        System.out.println("Insufficient Balance !");
+
+                                    }
 
                                     objects.add(object);
 
