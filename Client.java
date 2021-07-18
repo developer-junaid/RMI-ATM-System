@@ -38,14 +38,13 @@ class Client {
                 String username = scanner.nextLine();
                 System.out.print("Please enter your password: ");
                 String password = scanner.nextLine();
-                int amount = 0;
 
                 ///////////////////////////////////////////////////////////////////////////////
                 // Add Objects
 
                 // Create Input Output Streams
                 // ObjectOutputStream out = new ObjectOutputStream(new
-                // FileOutputStream("test.ser"));
+                // FileOutputStream(fileName));
 
                 // // Call Create Account
                 // int j = 0;
@@ -63,13 +62,13 @@ class Client {
                 try {
                     // Create Input Output Streams
                     // Read Objects
-                    ObjectInputStream in = new ObjectInputStream(new FileInputStream("test.ser"));
+                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
                     // User readUser = (User) in.readObject();
 
                     ArrayList<User> objectsRead = (ArrayList<User>) in.readObject();
                     in.close();
 
-                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("test.ser"));
+                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
 
                     // Print objects
                     for (int i = 0; i < objectsRead.size(); i++) {
@@ -98,7 +97,7 @@ class Client {
                 } catch (FileNotFoundException e) {
                     // System.out.println("File not found");
                     // Create Input Output Streams
-                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("test.ser"));
+                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
 
                     // Call Create Account
                     User user = new User(username, password, 0);
@@ -147,7 +146,7 @@ class Client {
 
                 // Read User from file
                 // Read Objects
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream("test.ser"));
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
                 // User readUser = (User) in.readObject();
 
                 ArrayList<User> objectsRead = (ArrayList<User>) in.readObject();
@@ -225,7 +224,7 @@ class Client {
                             }
 
                             // Write Objects Back
-                            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("test.ser"));
+                            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
 
                             out.writeObject(objects);
                             out.flush();
