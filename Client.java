@@ -92,12 +92,11 @@ class Client {
     // Withdraw
 
     // Request
-    public static void request(User object) {
-        // Show Account Balance
-        System.out.println("Your balance is $" + object.getAmount());
+    // public static void request(User object) {
+    // // Show Account Balance
+    // System.out.println("Your balance is $" + object.getAmount());
 
-        objects.add(object);
-    }
+    // }
     // Request
 
     // Create Account
@@ -176,8 +175,9 @@ class Client {
                             deposit(object);
 
                         } else if (choiceOperation.equalsIgnoreCase("r")) {
-                            // Request
-                            request(object);
+                            // Request RMI Method
+                            String response = ATM.request(object);
+                            System.out.println(response);
 
                         } else if (choiceOperation.equalsIgnoreCase("w")) {
                             // Withdraw

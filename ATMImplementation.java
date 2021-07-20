@@ -61,4 +61,14 @@ class ATMImplementation implements ATMInterface {
     }
     // Create Account // //
 
+    // Request
+    public String request(User object)
+
+    {
+        // Show Account Balance
+        return ("Your balance is $" + object.getAmount());
+
+    }
+    // Request
+
 }
