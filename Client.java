@@ -38,8 +38,15 @@ class Client {
 
             // If Create Account is Selected
             if (choice.equalsIgnoreCase("c")) {
-                // Create Account
-                createAccount(ATM);
+
+                System.out.print("Please enter your user name: ");
+                String username = scanner.nextLine();
+                System.out.print("Please enter your password: ");
+                String password = scanner.nextLine();
+
+                // *** Create Account RMI Method *** //
+                String response = ATM.createAccount(username, password);
+                System.out.println(response);
 
             } else if (choice.equalsIgnoreCase("l")) {
                 // Login
@@ -55,75 +62,6 @@ class Client {
     // Main
 
     //////////// Methods //////////////
-
-    // Deposit
-    public static void deposit(User object) {
-        System.out.print("Amount to deposit: $");
-        String amountToDeposit = scanner.nextLine(); // Input amount to deposit
-
-        // RMI Deposit method
-        object.depositAmount(Integer.parseInt(amountToDeposit));
-        objects.add(object);
-        System.out.println("amount deposited !");
-
-    }
-    // Deposit
-
-    // Withdraw
-    public static void withdraw(User object) {
-        // Withdraw balance from account
-        System.out.print("Amount of withdrawal: $");
-        String amountToWithdraw = scanner.nextLine(); // Input amount to withdraw
-
-        // If amount available
-        if (object.getAmount() >= Integer.parseInt(amountToWithdraw)) {
-            // Withdraw amount
-            object.withdrawAmount(Integer.parseInt(amountToWithdraw));
-            System.out.println("$" + amountToWithdraw + " withdrawn successfully.");
-        } else {
-            // Insufficient Balance
-            System.out.println("Insufficient Balance !");
-
-        }
-
-        objects.add(object);
-
-    }
-    // Withdraw
-
-    // Request
-    // public static void request(User object) {
-    // // Show Account Balance
-    // System.out.println("Your balance is $" + object.getAmount());
-
-    // }
-    // Request
-
-    // Create Account
-    public static void createAccount(ATMInterface ATM) throws RemoteException, ClassNotFoundException, IOException {
-
-        System.out.print("Please enter your user name: ");
-        String username = scanner.nextLine();
-        System.out.print("Please enter your password: ");
-        String password = scanner.nextLine();
-
-        // RMI Method Create Account
-        String response = ATM.createAccount(username, password);
-        System.out.println(response);
-    }
-    // Create Account
-
-    // Write
-    public static void write() throws FileNotFoundException, IOException {
-
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
-
-        out.writeObject(objects);
-        out.flush();
-        out.close();
-        objects.clear();
-    }
-    // Write
 
     // Login
     public static void login(ATMInterface ATM) throws FileNotFoundException, IOException, ClassNotFoundException {
@@ -171,17 +109,27 @@ class Client {
 
                         // If Deposit
                         if (choiceOperation.equalsIgnoreCase("d")) {
-                            // Add balance to account
-                            deposit(object);
+                            // *** Deposit RMI Method *** //
+                            System.out.print("Amount to deposit: $");
+                            String amountToDeposit = scanner.nextLine(); // Input amount to deposit
+
+                            // RMI Deposit method
+                            String response = ATM.deposit(object, Integer.parseInt(amountToDeposit));
+                            System.out.println(response);
 
                         } else if (choiceOperation.equalsIgnoreCase("r")) {
-                            // Request RMI Method
+                            // *** Request RMI Method *** //
                             String response = ATM.request(object);
                             System.out.println(response);
 
                         } else if (choiceOperation.equalsIgnoreCase("w")) {
-                            // Withdraw
-                            withdraw(object);
+                            // Withdraw balance from account
+                            System.out.print("Amount of withdrawal: $");
+                            String amountToWithdraw = scanner.nextLine(); // Input amount to withdraw
+
+                            // *** Withdraw RMI Method *** //
+                            String response = ATM.withdraw(object, Integer.parseInt(amountToWithdraw));
+                            System.out.println(response);
 
                         } else if (choiceOperation.equalsIgnoreCase("q")) {
                             System.out.println("Thanks for stopping by!");
@@ -190,9 +138,6 @@ class Client {
                             break;
                         }
                     }
-
-                    // Write Objects Back
-                    write();
 
                 }
             }
